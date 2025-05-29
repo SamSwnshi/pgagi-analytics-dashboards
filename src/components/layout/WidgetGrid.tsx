@@ -10,8 +10,8 @@ import dynamic from 'next/dynamic'
 const WeatherWidget = dynamic(() => import('@/components/widgets/WeatherWidget.client'), {
   ssr: false,
 })
-import NewsWidget from '@/components/widgets/NewsWidget'
-import StockWidget from '@/components/widgets/StockWidget'
+const NewsWidget = require('@/components/widgets/NewsWidget').default
+const StockWidget = require('@/components/widgets/StockWidget').default
 
 interface Widget {
   id: string
@@ -26,7 +26,7 @@ interface LayoutState {
   sidebarOpen: boolean
 }
 
-const widgetComponents: Record<string, React.ComponentType<unknown>> = {
+const widgetComponents: Record<string, React.ComponentType<any>> = {
   weather: WeatherWidget,
   news: NewsWidget,
   stock: StockWidget,
