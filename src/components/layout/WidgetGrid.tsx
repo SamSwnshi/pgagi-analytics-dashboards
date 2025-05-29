@@ -5,7 +5,11 @@ import { useSelector } from 'react-redux'
 import { DndProvider } from 'react-dnd/dist/core/DndProvider'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { RootState } from '@/store'
-import WeatherWidget from '@/components/widgets/WeatherWidget'
+import dynamic from 'next/dynamic'
+
+const WeatherWidget = dynamic(() => import('@/components/widgets/WeatherWidget.client'), {
+  ssr: false,
+})
 import NewsWidget from '@/components/widgets/NewsWidget'
 import StockWidget from '@/components/widgets/StockWidget'
 

@@ -1,86 +1,102 @@
 'use client'
+
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { RootState } from '@/store'
-import { toggleTheme } from '@/store/slices/themeSlice'
+import { toggleSidebar } from '@/store/slices/layoutSlice'
 import {
-  HomeIcon,
   ChartBarIcon,
-  NewspaperIcon,
-  CloudIcon,
-  CogIcon,
+  HomeIcon,
+  Cog6ToothIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  Bars3Icon,
 } from '@heroicons/react/24/outline'
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: HomeIcon },
   { name: 'Analytics', href: '/analytics', icon: ChartBarIcon },
-  { name: 'News', href: '/news', icon: NewspaperIcon },
-  { name: 'Weather', href: '/weather', icon: CloudIcon },
-  { name: 'Settings', href: '/settings', icon: CogIcon },
+  { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
 ]
 
-export const Sidebar = () => {
+export function Sidebar() {
   const dispatch = useDispatch()
-  const pathname = usePathname()
-  const { mode } = useSelector((state: RootState) => state.theme)
+  const { sidebarOpen } = useSelector((state: RootState) => state.layout)
+  const [isHovered, setIsHovered] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+
+  // Responsive: open by default on desktop, closed on mobile
+  // (You may want to sync this with Redux for global state)
 
   return (
-    <aside className="fixed left-0 top-16 bottom-0 w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
-      <div className="flex items-center justify-center h-16 px-4 bg-gray-50 dark:bg-gray-900">
-        <h1 className="text-xl font-bold text-gray-900 dark:text-white">Analytics Dashboard</h1>
-      </div>
+    <>
+      {/* Hamburger for mobile */}
+      <button
+        className="lg:hidden fixed top-4 left-4 z-50 rounded-lg p-2 bg-white dark:bg-gray-800 shadow"
+        onClick={() => setMobileOpen((v) => !v)}
+        aria-label="Open sidebar"
+      >
+        <Bars3Icon className="h-6 w-6 text-gray-700 dark:text-gray-200" />
+      </button>
 
-      <nav className="p-4 space-y-1">
-        {navigation.map((item) => {
-          const isActive = pathname === item.href
-          return (
-            <Link
+      {/* Sidebar overlay for mobile */}
+      <div
+        className={`fixed inset-0 z-40 bg-black bg-opacity-40 transition-opacity lg:hidden ${mobileOpen ? 'block' : 'hidden'}`}
+        onClick={() => setMobileOpen(false)}
+      />
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed z-50 top-0 left-0 h-full flex flex-col border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 transition-all duration-300
+          ${sidebarOpen ? 'w-64' : 'w-20'}
+          ${mobileOpen ? 'block' : 'hidden'}
+          lg:block`}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div className="flex h-16 items-center justify-between px-4">
+          {sidebarOpen && (
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Menu</h2>
+          )}
+          <button
+            onClick={() => {
+              if (window.innerWidth < 1024) setMobileOpen(false)
+              dispatch(toggleSidebar())
+            }}
+            className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+          >
+            {sidebarOpen ? (
+              <ChevronLeftIcon className="h-5 w-5" />
+            ) : (
+              <ChevronRightIcon className="h-5 w-5" />
+            )}
+          </button>
+        </div>
+        <nav className="flex-1 space-y-1 px-2 py-4">
+          {navigation.map((item) => (
+            <a
               key={item.name}
               href={item.href}
-              className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                isActive
-                  ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white'
-                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+              className={`group flex items-center rounded-lg px-2 py-2 text-sm font-medium ${
+                sidebarOpen ? 'justify-start' : 'justify-center'
+              } ${
+                isHovered && !sidebarOpen
+                  ? 'bg-gray-100 dark:bg-gray-700'
+                  : 'hover:bg-gray-100 dark:hover:bg-gray-700'
               }`}
             >
-              <item.icon className="w-5 h-5 mr-3" />
-              {item.name}
-            </Link>
-          )
-        })}
-      </nav>
-
-      <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-        <button
-          onClick={() => dispatch(toggleTheme())}
-          className="flex items-center w-full px-4 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-        >
-          <svg
-            className="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            {mode === 'dark' ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+              <item.icon
+                className={`h-6 w-6 flex-shrink-0 text-gray-500 dark:text-gray-400 ${
+                  sidebarOpen ? 'mr-3' : ''
+                }`}
               />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-              />
-            )}
-          </svg>
-          {mode === 'dark' ? 'Light Mode' : 'Dark Mode'}
-        </button>
-      </div>
-    </aside>
+              {sidebarOpen && (
+                <span className="text-gray-900 dark:text-white">{item.name}</span>
+              )}
+            </a>
+          ))}
+        </nav>
+      </aside>
+    </>
   )
 } 

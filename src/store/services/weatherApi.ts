@@ -1,5 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+// Debug log to check if API key is available
+console.log('OpenWeather API Key:', process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY)
+
 interface WeatherResponse {
   current: {
     temp: number

@@ -1,5 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import { useGetTopHeadlinesQuery } from '@/store/services/newsApi'
-import Image from 'next/image';
+// import Image from 'next/image';
 
 interface NewsArticle {
   title: string
@@ -55,7 +56,7 @@ export default function NewsWidget() {
                 <img
                   src={article.urlToImage}
                   alt={article.title}
-                  className="w-10 h-20 object-cover rounded"
+                  className="w-32 h-24 object-cover rounded-lg shadow border border-gray-200 dark:border-gray-700 flex-shrink-0"
                 />
               )}
               <div className="flex-1">
