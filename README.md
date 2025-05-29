@@ -21,8 +21,6 @@ A modern, responsive analytics dashboard built with Next.js, React, TypeScript, 
 - Redux Toolkit
 - React DnD
 - Recharts
-- Jest & React Testing Library
-- Cypress
 
 ## Getting Started
 
@@ -56,7 +54,6 @@ A modern, responsive analytics dashboard built with Next.js, React, TypeScript, 
 │   └── types/              # TypeScript types
 ├── public/                 # Static assets
 ├── tests/                  # Test files
-└── cypress/               # E2E tests
 ```
 
 ## Available Scripts
@@ -64,8 +61,6 @@ A modern, responsive analytics dashboard built with Next.js, React, TypeScript, 
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm start` - Start production server
-- `npm run test` - Run unit tests
-- `npm run test:e2e` - Run E2E tests
 - `npm run lint` - Run ESLint
 - `npm run format` - Format code with Prettier
 
