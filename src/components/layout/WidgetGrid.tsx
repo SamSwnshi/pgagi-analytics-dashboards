@@ -13,11 +13,6 @@ const WeatherWidget = dynamic(() => import('@/components/widgets/WeatherWidget.c
 import NewsWidget from '@/components/widgets/NewsWidget'
 import StockWidget from '@/components/widgets/StockWidget'
 
-interface WidgetProps {
-  id: string
-  symbol?: string
-}
-
 interface Widget {
   id: string
   type: 'weather' | 'news' | 'stock'
@@ -31,7 +26,7 @@ interface LayoutState {
   sidebarOpen: boolean
 }
 
-const widgetComponents: Record<string, React.ComponentType<WidgetProps>> = {
+const widgetComponents: Record<string, React.ComponentType<unknown>> = {
   weather: WeatherWidget,
   news: NewsWidget,
   stock: StockWidget,

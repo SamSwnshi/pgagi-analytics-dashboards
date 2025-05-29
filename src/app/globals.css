@@ -51,7 +51,7 @@
 
 @layer base {
   * {
-    @apply border-gray-200 dark:border-gray-700;
+    /* Removed border color utility to fix Tailwind error */
   }
   body {
     @apply bg-background text-foreground;
