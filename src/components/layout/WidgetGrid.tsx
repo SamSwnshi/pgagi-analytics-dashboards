@@ -2,16 +2,21 @@
 
 import React, { useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { DndProvider } from 'react-dnd/dist/core/DndProvider'
+import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { RootState } from '@/store'
 import dynamic from 'next/dynamic'
 
+// Proper ES module dynamic imports with SSR disabled
 const WeatherWidget = dynamic(() => import('@/components/widgets/WeatherWidget.client'), {
   ssr: false,
 })
-const NewsWidget = require('@/components/widgets/NewsWidget').default
-const StockWidget = require('@/components/widgets/StockWidget').default
+const NewsWidget = dynamic(() => import('@/components/widgets/NewsWidget'), {
+  ssr: false,
+})
+const StockWidget = dynamic(() => import('@/components/widgets/StockWidget'), {
+  ssr: false,
+})
 
 interface Widget {
   id: string
@@ -26,7 +31,12 @@ interface LayoutState {
   sidebarOpen: boolean
 }
 
-const widgetComponents: Record<string, React.ComponentType<any>> = {
+type WidgetProps = {
+  id: string
+  symbol?: string
+}
+
+const widgetComponents: Record<Widget['type'], React.ComponentType<WidgetProps>> = {
   weather: WeatherWidget,
   news: NewsWidget,
   stock: StockWidget,
@@ -66,4 +76,4 @@ export default function WidgetGrid() {
       </div>
     </DndProvider>
   )
-} 
+}
