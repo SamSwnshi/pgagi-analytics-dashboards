@@ -10,13 +10,9 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 
-interface FinanceWidgetProps {
-  id: string
-}
-
 const popularStocks = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA']
 
-export default function FinanceWidget({ id }: FinanceWidgetProps) {
+export default function FinanceWidget() {
   const [selectedStock, setSelectedStock] = useState('AAPL')
   const { data, error, isLoading } = useGetStockQuoteQuery({
     symbol: selectedStock,
