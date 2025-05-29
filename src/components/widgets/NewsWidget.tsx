@@ -42,25 +42,25 @@ export default function NewsWidget() {
   return (
     <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
       <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Latest News</h2>
-      <div className="space-y-4">
+      <div className="space-y-4 ">
         {data.articles.slice(0, 5).map((article: NewsArticle, index: number) => (
           <a
             key={index}
             href={article.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="block p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+            className="block w-20  no-underline p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
           >
-            <div className="flex items-start space-x-4">
+            <div className="flex flex-col  justify-center items-start space-x-4">
               {article.urlToImage && (
                 <img
                   src={article.urlToImage}
                   alt={article.title}
-                  className="w-32 h-24 object-cover rounded-lg shadow border border-gray-200 dark:border-gray-700 flex-shrink-0"
+                  className="w-12 h-12 object-cover rounded-lg shadow border  dark:border-gray-700 flex-shrink-0"
                 />
               )}
-              <div className="flex-1">
-                <h3 className="font-medium text-gray-900 dark:text-white line-clamp-2">
+              <div className="flex-1  ">
+                <h3 className=" font-medium text-gray-900 dark:text-white line-clamp-2">
                   {article.title}
                 </h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">

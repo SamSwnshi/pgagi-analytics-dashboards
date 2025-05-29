@@ -36,7 +36,7 @@ export function Sidebar() {
         onClick={() => setMobileOpen((v) => !v)}
         aria-label="Open sidebar"
       >
-        <Bars3Icon className="h-6 w-6 text-gray-700 dark:text-gray-200" />
+        <Bars3Icon className="h-7 w-7 text-gray-700 dark:text-gray-200 text-white" />Dash
       </button>
 
       {/* Sidebar overlay for mobile */}
